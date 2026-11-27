@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Stage Management System</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+              integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+              crossorigin="anonymous"/>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Stage Management</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/enfants}">Enfants</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/stages}">Stages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/inscriptions}">Inscriptions</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <h1>Stage Management System</h1>
+            <hr />
+            <h2>Modifier Inscription</h2>
+            <form action="#" th:action="@{/saveUpdateInscription}" th:object="${inscription}" method="POST">
+                <input type="hidden" th:field="*{id}" />
+                <span>Enfant :</span><br>
+                <select th:field="*{enfant}" class="form-control">
+                    <option value="">-- Sélectionner un enfant --</option>
+                    <option th:each="enfant : ${listEnfants}" 
+                            th:value="${enfant.id}" 
+                            th:text="${enfant.prenom + ' ' + enfant.nom}">
+                    </option>
+                </select>
+                <span th:if="${#fields.hasErrors('enfant')}" th:errors="*{enfant}" class="text-danger"></span>
+                <span>Stage :</span><br>
+                <select th:field="*{stage}" class="form-control">
+                    <option value="">-- Sélectionner un stage --</option>
+                    <option th:each="stage : ${listStages}" 
+                            th:value="${stage.id}" 
+                            th:text="${stage.denom}">
+                    </option>
+                </select>
+                <span th:if="${#fields.hasErrors('stage')}" th:errors="*{stage}" class="text-danger"></span>
+                <span>Payé :</span><br>
+                <select th:field="*{paye}" class="form-control">
+                    <option value="true">Oui</option>
+                    <option value="false">Non</option>
+                </select>
+                <span th:if="${#fields.hasErrors('paye')}" th:errors="*{paye}" class="text-danger"></span>
+                <button type="submit" class="btn btn-info col-2 mt-2">Update</button>
+            </form>
+            <hr />
+            <a th:href="@{/inscriptions}">Back to Inscription List</a>
+        </div>
+    </body>
+</html>s

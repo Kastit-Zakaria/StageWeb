@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Stage Management System</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+              integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+              crossorigin="anonymous"/>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Stage Management</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/enfants}">Enfants</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/stages}">Stages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/inscriptions}">Inscriptions</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container my-2">
+            <h1>Liste des Enfants</h1>
+            <form th:action="@{/enfants}" method="GET" class="mb-3">
+                <div class="input-group">
+                    <input type="text" name="nom" th:value="${nom}" placeholder="Rechercher par nom..." class="form-control" />
+                    <button type="submit" class="btn btn-secondary">Rechercher</button>
+                </div>
+            </form>
+            <a th:href="@{/showNewEnfantForm}" class="btn btn-primary btn-sm mb-3">Add Enfant</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Date de naissance</th>
+                        <th>Sexe</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="enfant : ${listEnfants}">
+                        <td th:text="${enfant.nom}"></td>
+                        <td th:text="${enfant.prenom}"></td>
+                        <td th:text="${#temporals.format(enfant.dateNaissance,'dd/MM/yyyy')}"></td>
+                        <td th:text="${enfant.sexe}"></td>
+                        <td>
+                            <a th:href="@{/showUpdateEnfantForm(id=${enfant.id})}" class="btn btn-primary">Update</a>
+                            <a th:href="@{/deleteEnfant(id=${enfant.id})}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

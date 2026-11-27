@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Stage Management System</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+              integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+              crossorigin="anonymous"/>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Stage Management</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/enfants}">Enfants</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/stages}">Stages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/inscriptions}">Inscriptions</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container my-2">
+            <h1>Liste des Stages</h1>
+            <form th:action="@{/stages}" method="GET" class="mb-3">
+                <div class="input-group">
+                    <input type="text" name="denom" th:value="${denom}" placeholder="Rechercher par dénomination..." class="form-control" />
+                    <button type="submit" class="btn btn-secondary">Rechercher</button>
+                </div>
+            </form>
+            <a th:href="@{/showNewStageForm}" class="btn btn-primary btn-sm mb-3">Add Stage</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Dénomination</th>
+                        <th>Age Min</th>
+                        <th>Age Max</th>
+                        <th>Date Début</th>
+                        <th>Date Fin</th>
+                        <th>Prix</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="stage : ${listStages}">
+                        <td th:text="${stage.denom}"></td>
+                        <td th:text="${stage.ageMin}"></td>
+                        <td th:text="${stage.ageMax}"></td>
+                        <td th:text="${#temporals.format(stage.dateDeb,'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(stage.dateFin,'dd/MM/yyyy')}"></td>
+                        <td th:text="${stage.prix}"></td>
+                        <td>
+                            <a th:href="@{/showUpdateStageForm(id=${stage.id})}" class="btn btn-primary">Update</a>
+                            <a th:href="@{/deleteStage(id=${stage.id})}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

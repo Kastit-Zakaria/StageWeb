@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Stage Management System</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+              integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+              crossorigin="anonymous"/>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Stage Management</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/enfants}">Enfants</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/stages}">Stages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/inscriptions}">Inscriptions</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <h1>Stage Management System</h1>
+            <hr />
+            <h2>Modifier Stage</h2>
+            <form action="#" th:action="@{/saveUpdateStage}" th:object="${stage}" method="POST">
+                <input type="hidden" th:field="*{id}" />
+                <span>Dénomination :</span>
+                <input type="text" th:field="*{denom}" placeholder="Dénomination" class="form-control" />
+                <span th:if="${#fields.hasErrors('denom')}" th:errors="*{denom}" class="text-danger"></span>
+                <span>Age min :</span>
+                <input type="number" th:field="*{ageMin}" placeholder="Age Min" class="form-control" />
+                <span th:if="${#fields.hasErrors('ageMin')}" th:errors="*{ageMin}" class="text-danger"></span>
+                <span>Age max :</span>
+                <input type="number" th:field="*{ageMax}" placeholder="Age Max" class="form-control" />
+                <span th:if="${#fields.hasErrors('ageMax')}" th:errors="*{ageMax}" class="text-danger"></span>
+                <span>Date début :</span>
+                <input type="date" name="dateDeb" th:value="${#temporals.format(stage.dateDeb, 'yyyy-MM-dd')}" class="form-control" />
+                <span th:if="${#fields.hasErrors('dateDeb')}" th:errors="*{dateDeb}" class="text-danger"></span>
+
+                <span>Date fin :</span>
+                <input type="date" name="dateFin" th:value="${#temporals.format(stage.dateFin, 'yyyy-MM-dd')}" class="form-control" />
+                <span th:if="${#fields.hasErrors('dateFin')}" th:errors="*{dateFin}" class="text-danger"></span>
+                <span>Prix :</span>
+                <input type="number" th:field="*{prix}" placeholder="Prix" class="form-control" />
+                <span th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}" class="text-danger"></span>
+                <p th:if="${erreurAge}" th:text="${erreurAge}" class="text-danger"></p>
+                <p th:if="${erreurDate}" th:text="${erreurDate}" class="text-danger"></p>
+                <button type="submit" class="btn btn-info col-2 mt-2">Update</button>
+            </form>
+            <hr />
+            <a th:href="@{/stages}">Back to Stage List</a>
+        </div>
+    </body>
+</html>
